@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết file</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📄 {{ file.name }}</h1>
+        <p><strong>Mô tả:</strong> {{ file.description }}</p>
+        <p><strong>Kích thước:</strong> {{ file.size }} KB</p>
+        <p><strong>Định dạng:</strong> {{ file.extension }}</p>
+        <p><strong>Người upload:</strong> {{ file.uploader }}</p>
+        <p><strong>Lượt tải:</strong> {{ file.downloads }}</p>
+
+        <a href="/download/{{ file.id }}" class="btn">⬇️ Tải xuống</a>
+        <a href="/" class="btn">⬅️ Quay lại</a>
+    </div>
+</body>
+</html>
