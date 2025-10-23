@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FILEDOWNLOADER - Web</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+        }
+
+        nav {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a.logout-btn {
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        nav a.logout-btn:hover {
+            background: #c82333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        section {
+            margin-top: 30px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f4f4f4;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Thanh điều hướng -->
+    <nav>
+        <div><strong>📂 FILEDOWNLOADER</strong></div>
+        <div>
+            <span>Xin chào, <strong>{{ session['user'] }}</strong></span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">🔓 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>📁 FILEDOWNLOADER</h1>
+
+        <section class="upload">
+            <h2>Thêm URL để tải xuống</h2>
+            <form action="{{ url_for('add_url') }}" method="post" class="form">
+                <input type="text" name="url" placeholder="Nhập URL (ví dụ: https://.../file.pdf)" required>
+                <button type="submit">Tải về (chạy nền)</button>
+            </form>
+            <p class="hint">File sẽ được tải về folder <strong>{{ config.download_folder if config else 'downloads'
+                    }}</strong></p>
+        </section>
+
+        <section class="list">
+            <h2>Danh sách file hiện có</h2>
+            {% if files %}
+            <ul>
+                {% for f in files %}
+                <li>
+                    <a href="{{ url_for('download_file', filename=f) }}">{{ f }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Không có file nào trong thư mục.</p>
+            {% endif %}
+        </section>
+    </div>
+
+</body>
+
+</html>
