@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or 'FileDownloader' }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">Trang chủ</a>
+        {% if session.user %}
+        <span>Xin chào, {{ session.user }}</span>
+        {% if session.role == 'admin' %}
+        | <a href="{{ url_for('admin_page') }}">Quản trị</a>
+        {% endif %}
+        | <a href="{{ url_for('logout') }}">Đăng xuất</a>
+        {% else %}
+        <a href="{{ url_for('login') }}">Đăng nhập</a>
+        <a href="{{ url_for('register') }}">Đăng ký</a>
+        {% endif %}
+    </nav>
+    <main>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for msg in messages %}
+            <li>{{ msg }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>
